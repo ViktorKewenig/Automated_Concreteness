@@ -78,7 +78,7 @@ wget https://github.com/emotionclip/releases/download/v1.0/emotionclip_latest.pt
 
 ## Usage
 
-1. Prepare your input CSV file with a column named either 'Expression' or 'Word' containing the text to analyze.
+1. Prepare your input CSV file with a column named either 'Expression' or 'Word' containing the text to analyze. You can use "English_full.csv" of the current directory if you would like to run a test.
 
 2. Run the predictor:
 ```python
