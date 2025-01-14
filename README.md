@@ -1,4 +1,4 @@
-# Universal Concreteness Predictor
+# Concreteness Predictor
 
 A deep learning system for predicting concreteness ratings of words, multi-word expressions, and sentences using CLIP and EmotionCLIP embeddings. The system supports multiple languages through automatic translation to English.
 
