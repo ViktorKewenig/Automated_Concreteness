@@ -132,14 +132,7 @@ This project uses:
 
 If you use this code in your research, please cite:
 
-```bibtex
-@misc{universal-concreteness-predictor,
-  author = {Your Name},
-  title = {Universal Concreteness Predictor},
-  year = {2024},
-  publisher = {GitHub},
-  url = {https://github.com/yourusername/universal-concreteness-predictor}
-}
+```TBD
 ```
 
 ## License
