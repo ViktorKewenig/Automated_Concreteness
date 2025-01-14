@@ -1,6 +1,10 @@
 # Concreteness Predictor
 
-A deep learning system for predicting concreteness ratings of words, multi-word expressions, and sentences using CLIP and EmotionCLIP embeddings. The system supports multiple languages through automatic translation to English.
+A deep learning system for predicting concreteness ratings of words, multi-word expressions, and sentences using CLIP and EmotionCLIP embeddings. The system supports multiple languages through automatic translation to English. 
+
+You can try the system with your own data (and without coding) under this link: 
+
+[Concreteness Predictor](https://concretion-cbbdg2fwgweafmf7.uksouth-01.azurewebsites.net)
 
 ## Overview
 
