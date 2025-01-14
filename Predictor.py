@@ -704,5 +704,5 @@ def combined_predict(csv_path, single_model_path="saved_model", multiword_model_
     print(f"\nPredictions saved to {output_csv}")
 
 if __name__ == "__main__":
-    csv_path = "Estonian_full.csv"  # Your input file
+    csv_path = "English_full.csv"  # Your input file
     combined_predict(csv_path, single_model_path="saved_model", multiword_model_path="multiword_model")
