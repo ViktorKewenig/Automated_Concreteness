@@ -557,34 +557,6 @@ def combined_predict(csv_path, single_model_path="saved_model", multiword_model_
                 sentence_word_preds[i] = "3.0"
                 continue
 
-            # 2) Each word embedding gets predicted by the *multiword* model or single model?
-            #    The user specifically said: "then each contextualized embedding be treated 
-            #    as separate word and receive a concreteness rating."
-            #    We can re-use the *single_model* to get rating per 'word' embedding 
-            #    (since single_model expects a single embedding at a time).
-            #    But the single_model’s .predict(...) expects text strings, not raw embeddings.
-            #    We need to do a small trick: feed the *embeddings themselves* through the same regressor pipeline.
-            #    The easiest approach: we replicate the logic from single_model.predict but skip the text->embedding step
-            #    because we already have them. 
-            #    For that, let's replicate single_model’s logic but pass our word_embs in place of get_original_clip_embeddings.
-
-            # We'll do the same concatenation (og + emotion) if you prefer. 
-            # Or just pass these token-level vectors into single_model's combined regressor directly. 
-            # For full consistency, let's assume we treat these token embeddings like "original CLIP embeddings" 
-            # and fill zeros for "emotion embeddings" (or you can do the same step with emotionclip). 
-            # For brevity, let's do a simpler approach: 
-            # "We have a single embedding dimension from base_clip_model" -> feed it into the single_model’s regressor 
-            # if it also requires the same dimension. 
-            # But actually, the single_model expects 2 x 512 dim inputs (original + emotion). 
-            # So we must replicate that to keep code consistent.
-
-            # We'll do a quick approach: 
-            #    - original CLIP token embedding is 'word_embs[j]' 
-            #    - emotion-finetuned token embedding we produce similarly 
-            #      by calling get_finetuned_clip_embeddings on the entire sentence and then re-fusing. 
-            # For brevity, let's skip the emotion part or mimic it.  
-            # The simplest is to do the same re-fusion with the emotion CLIP:
-
             # Step 2a) Re-fuse using emotion CLIP
             #   We'll do a function get_clip_token_embeddings but for the emotion model:
             emotion_clip = EmotionCLIP(
@@ -595,15 +567,6 @@ def combined_predict(csv_path, single_model_path="saved_model", multiword_model_
             checkpoint = torch.load("emotionclip_latest.pt", map_location=device)
             emotion_clip.load_state_dict(checkpoint['model'], strict=True)
             emotion_clip.eval()
-
-            # We'll do something similar to get token-level embeddings from emotion_clip:
-            # However, the code in EmotionCLIP is not the same as openai/clip for raw token embeddings,
-            # so you'd replicate a "get_clip_token_embeddings" style if you truly want parallel.
-            # For demonstration, let's do an approximate approach: 
-            # we feed the entire sentence to emotion_clip.encode_text, 
-            # which yields a single embedding, not token-level. 
-            # We'll do a naive "repeat" for each word. 
-            # This is obviously an approximation, but it keeps the code from exploding in complexity.
 
             text_tokens = clip.tokenize([expr]).to(device)
             with torch.no_grad():
@@ -642,7 +605,7 @@ def combined_predict(csv_path, single_model_path="saved_model", multiword_model_
             word_preds_list = [f"{p.item():.2f}" for p in word_predictions]
             sentence_word_preds[i] = ";".join(word_preds_list)
 
-            # We might produce an overall sentence rating by average or sum
+            # We produce an overall sentence rating by average or sum
             predictions[i] = torch.mean(word_predictions).item()
 
     # Now we've assigned predictions for single_words, multi_words, or sentences
