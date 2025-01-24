@@ -4,7 +4,7 @@ A deep learning system for predicting concreteness ratings of words, multi-word 
 
 You can try the system with your own data (and without coding) under this link: 
 
-[Concreteness Predictor](concreteness.eu)
+[Concreteness Predictor](http://concreteness.eu/)
 
 ## Overview
 
